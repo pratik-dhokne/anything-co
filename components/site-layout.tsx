@@ -204,14 +204,14 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <Footer />
       <a
-  href={WHATSAPP_URL}
-  target="_blank"
-  rel="noreferrer"
-  className="inline-flex w-full items-center justify-center rounded-full bg-green-600 px-6 py-3 text-white hover:bg-green-700"
->
-  <MessageCircle className="mr-2 h-4 w-4" />
-  Chat on WhatsApp
-</a>
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Chat with us on WhatsApp"
+        className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-success text-success-foreground shadow-glow transition-transform hover:scale-105"
+      >
+        <MessageCircle className="h-6 w-6" />
+      </a>
     </div>
   );
 }
