@@ -1,0 +1,152 @@
+"use client";
+
+import Link from "next/link";
+import { ClipboardList, Clock, Star, Wallet, MapPin, ShieldCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DashboardShell, StatCards } from "@/components/dashboard-shell";
+
+const title = "Customer Dashboard — Anything.co";
+const description = "Track live requests, compare quotes, manage payments and review partners.";
+
+// export const Route = createFileRoute("/dashboard/customer")({
+//   component: CustomerDashboard,
+//   head: () => ({
+//     meta: [
+//       { title },
+//       { name: "description", content: description },
+//       { property: "og:title", content: title },
+//       { property: "og:description", content: description },
+//       { property: "og:type", content: "website" },
+//       { property: "og:url", content: "/dashboard/customer" },
+//       { name: "robots", content: "noindex" },
+//     ],
+//     links: [{ rel: "canonical", href: "/dashboard/customer" }],
+//   }),
+// });
+
+const quotes = [
+  { partner: "CoolAir Experts", price: "₹1,299", eta: "Today, 4:30 PM", rating: 4.9 },
+  { partner: "Frostline Services", price: "₹1,450", eta: "Today, 6:00 PM", rating: 4.7 },
+  { partner: "Breeze Care", price: "₹1,150", eta: "Tomorrow, 10:00 AM", rating: 4.6 },
+];
+
+const history = [
+  ["#AC-4821", "AC Repair", "CoolAir Experts", "In progress", "₹1,299"],
+  ["#CL-4713", "Deep Cleaning", "BrightHome Care", "Completed", "₹2,499"],
+  ["#MV-4610", "Packers & Movers", "SafeMove Logistics", "Completed", "₹11,800"],
+  ["#PL-4522", "Plumbing", "AquaFix Pros", "Cancelled", "₹0"],
+];
+
+export default function CustomerDashboard() {
+  return (
+    <DashboardShell
+      role="Customer"
+      title="Hi Aarav 👋"
+      subtitle="Here's what's happening with your requests today."
+    >
+      <StatCards
+        items={[
+          { icon: ClipboardList, label: "Active requests", value: "2" },
+          { icon: Clock, label: "Avg. response", value: "6 min", hint: "Faster than last month" },
+          { icon: Wallet, label: "Spent this year", value: "₹42,380" },
+          { icon: Star, label: "Your rating given", value: "4.8" },
+        ]}
+      />
+
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+        <Card className="border-0 shadow-soft">
+          <CardHeader>
+            <CardTitle className="text-base">Live tracking · #AC-4821</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <div className="flex items-center gap-3 rounded-2xl bg-brand-soft p-4">
+              <span className="grid h-11 w-11 place-items-center rounded-full gradient-brand font-bold text-primary-foreground">
+                C
+              </span>
+              <div className="min-w-0">
+                <p className="flex items-center gap-1.5 font-semibold">
+                  CoolAir Experts <ShieldCheck className="h-4 w-4 text-success" />
+                </p>
+                <p className="text-xs text-muted-foreground">Arriving in 12 min · 2.4 km away</p>
+              </div>
+              <Badge className="ml-auto bg-success text-success-foreground">On the way</Badge>
+            </div>
+            <Progress value={72} />
+            <div className="grid grid-cols-4 text-center text-xs text-muted-foreground">
+              {["Requested", "Quoted", "Assigned", "Completed"].map((s, i) => (
+                <span key={s} className={i < 3 ? "font-medium text-primary" : ""}>
+                  {s}
+                </span>
+              ))}
+            </div>
+            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 text-primary" /> Indiranagar, Bengaluru 560038
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-soft">
+          <CardHeader>
+            <CardTitle className="text-base">Quote comparison</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {quotes.map((q) => (
+              <div key={q.partner} className="rounded-xl border p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="truncate text-sm font-semibold">{q.partner}</p>
+                  <span className="shrink-0 font-semibold text-primary">{q.price}</span>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {q.eta} · ★ {q.rating}
+                </p>
+                <Button size="sm" variant="outline" className="mt-3 w-full rounded-full">
+                  Accept quote
+                </Button>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="border-0 shadow-soft">
+        <CardHeader>
+          <CardTitle className="text-base">Request history</CardTitle>
+        </CardHeader>
+        <CardContent className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Request</TableHead>
+                <TableHead>Service</TableHead>
+                <TableHead>Partner</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {history.map(([id, service, partner, status, amount]) => (
+                <TableRow key={id}>
+                  <TableCell className="font-medium">{id}</TableCell>
+                  <TableCell>{service}</TableCell>
+                  <TableCell>{partner}</TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={status === "Completed" ? "secondary" : status === "Cancelled" ? "outline" : "default"}
+                    >
+                      {status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">{amount}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </DashboardShell>
+  );
+}
