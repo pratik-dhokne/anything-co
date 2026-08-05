@@ -136,11 +136,21 @@ export default function Contact() {
               </div>
             </div>
           ))}
-          <Button asChild size="lg" className="w-full rounded-full bg-success text-success-foreground hover:bg-success/90">
+          {/* <Button asChild size="lg" className="w-full rounded-full bg-success text-success-foreground hover:bg-success/90">
             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
               <MessageCircle className="mr-2 h-4 w-4" /> Chat on WhatsApp
             </a>
-          </Button>
+          </Button> */}
+
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex w-full items-center justify-center rounded-full bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+          >
+            <MessageCircle className="mr-2 h-4 w-4" />
+            Chat on WhatsApp
+          </a>
           <div className="overflow-hidden rounded-2xl border">
             <iframe
               title="Anything.co office location"
